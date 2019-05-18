@@ -1,0 +1,11 @@
+language: python
+cache: 
+  - pip
+python:
+  - "3.7"
+install: 
+  - pip install -r requirements.txt
+script:
+  - python cache_reached_users.py
+after_script:
+  - python follow_your_follower_followers.py

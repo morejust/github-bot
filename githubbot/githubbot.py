@@ -55,8 +55,16 @@ class GithubBot:
             self.follow(user_to_follow)
             
     def unfollow_everyone(self):
-        i_will_follow_them = self.api.get_following(self.api.username)
-        for user_to_unfollow in tqdm(i_will_follow_them):
+        my_followings = self.api.get_following(self.api.username)
+        for user_to_unfollow in tqdm(my_followings):
+            self.unfollow(user_to_unfollow)
+
+    def unfollow_non_followers(self):
+        my_followings = self.api.get_following(self.api.username)
+        my_followers = self.api.get_followers(self.api.username)
+        for user_to_unfollow in tqdm(my_followings):
+            if user_to_unfollow in my_followers:
+                continue
             self.unfollow(user_to_unfollow)
 
     def __enter__(self):

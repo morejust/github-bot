@@ -8,6 +8,9 @@ GITHUB_API_URL = 'https://api.github.com'
 
 class Github:
     def __init__(self, username: str, password: str) -> None:
+        if username is None or password is None:
+            raise RuntimeError("Provide valid credentials.")
+
         self.session = requests.Session()
         self.session.auth = (username, password)
         self.username = username
@@ -20,7 +23,7 @@ class Github:
                 f"HTTP Error! Status code: {response.status_code}", response.status_code
             ) from http_error
                 
-    def _get_followers_or_following(self, username, followers_or_following):
+    def _get_followers_or_following(self, username: str, followers_or_following: str):
         if followers_or_following not in ["followers", "following"]:
             raise RuntimeError(
                 f"Param can be only 'followers' or 'following' (not {followers_or_following})"
@@ -43,20 +46,20 @@ class Github:
                 
         return result
         
-    def get_followers(self, username):
+    def get_followers(self, username: str):
         return self._get_followers_or_following(username, followers_or_following="followers")
     
-    def get_following(self, username):
+    def get_following(self, username: str):
         return self._get_followers_or_following(username, followers_or_following="following")
         
-    def follow(self, username):
+    def follow(self, username: str):
         response = self.session.put(
             f"{GITHUB_API_URL}/user/following/{username}", timeout=5
         )
         self._handle_http_errors(response)
         return response
     
-    def unfollow(self, username):
+    def unfollow(self, username: str):
         response = self.session.delete(
             f"{GITHUB_API_URL}/user/following/{username}", timeout=5
         )

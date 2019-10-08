@@ -8,4 +8,4 @@ install:
 script:
   - python cache_reached_users.py
 after_script:
-  - python follow_your_follower_followers.py
+  - python app.py

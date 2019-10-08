@@ -37,7 +37,7 @@ class GithubBot:
         self.reached_users.add(username)
         self.sleep()
         
-    def sleep(self, max_val=30, min_val=3):
+    def sleep(self, max_val=20, min_val=3):
         time.sleep(min_val + max_val * random.random())
         
     def update_reached_users(self):
